@@ -15,12 +15,24 @@ content: |-
 output:
   file: README.md
   mode: replace
+  content: |-
+    ## Usage
+
+    ```hcl
+    {{ include "examples/basic/main.tf" }}
+    ```
   template: |-
-    # terraform-module-template
+    # terraform-aws-lambda-function
+
+    This module deploys an AWS Lambda function from a Zip file or from a Docker image. Additionally, it creates an IAM 
+    role for the Lambda function, which optionally attaches policies to allow for CloudWatch Logs, Cloudwatch Insights, 
+    VPC Access and X-Ray tracing.
+
+    __NOTE:__ This module is a hard fork of [CloudPosse's terraform module](https://github.com/cloudposse/terraform-aws-lambda-function) with required improvements for us.
 
     <!-- BEGIN_TF_DOCS -->
     {{ .Content }}
-    <!-- END_TF_DOCS -->
+    <!-- END_TF_DOCS --> 
 
     ## License
     The Apache-2.0 license
