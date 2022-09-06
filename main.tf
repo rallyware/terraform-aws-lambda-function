@@ -15,6 +15,7 @@ module "cloudwatch_log_group" {
   context           = module.this.context
 }
 
+#tfsec:ignore:aws-lambda-enable-tracing
 resource "aws_lambda_function" "this" {
   count = module.this.enabled ? 1 : 0
 
