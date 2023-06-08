@@ -86,7 +86,7 @@ resource "aws_iam_role_policy_attachment" "custom" {
   policy_arn = each.key
 }
 
-data "aws_iam_policy_document" "this" {
+data "aws_iam_policy_document" "raw" {
   count = module.this.enabled && length(var.iam_policy_documents) > 0 ? 1 : 0
 
   override_policy_documents = var.iam_policy_documents
@@ -97,7 +97,7 @@ resource "aws_iam_policy" "this" {
 
   name        = module.this.id
   description = var.iam_policy_description
-  policy      = one(data.aws_iam_policy_document.this[*].json)
+  policy      = one(data.aws_iam_policy_document.raw[*].json)
   tags        = module.this.tags
 }
 
