@@ -92,7 +92,7 @@ data "aws_iam_policy_document" "raw" {
   override_policy_documents = var.iam_policy_documents
 }
 
-resource "aws_iam_policy" "this" {
+resource "aws_iam_policy" "raw" {
   count = module.this.enabled && length(var.iam_policy_documents) > 0 ? 1 : 0
 
   name        = module.this.id
@@ -101,9 +101,9 @@ resource "aws_iam_policy" "this" {
   tags        = module.this.tags
 }
 
-resource "aws_iam_role_policy_attachment" "this" {
+resource "aws_iam_role_policy_attachment" "raw" {
   count = local.enabled && length(var.iam_policy_documents) > 0 ? 1 : 0
 
   role       = aws_iam_role.this[0].name
-  policy_arn = aws_iam_policy.this[0].arn
+  policy_arn = aws_iam_policy.raw[0].arn
 }
