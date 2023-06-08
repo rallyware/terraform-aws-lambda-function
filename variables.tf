@@ -239,10 +239,28 @@ variable "vpc_config" {
   default     = null
 }
 
+variable "iam_role_description" {
+  type        = string
+  description = "The description of the IAM role that is visible in the IAM role manager"
+  default     = ""
+}
+
 variable "custom_iam_policy_arns" {
   type        = set(string)
   description = "ARNs of custom policies to be attached to the lambda role"
   default     = []
+}
+
+variable "iam_policy_documents" {
+  type        = list(string)
+  description = "List of JSON IAM policy documents"
+  default     = []
+}
+
+variable "iam_policy_description" {
+  type        = string
+  description = "The description of the IAM policy that is visible in the IAM policy manager"
+  default     = ""
 }
 
 variable "dead_letter_config_target_arn" {
@@ -255,7 +273,7 @@ variable "dead_letter_config_target_arn" {
   default     = null
 }
 
-variable "iam_policy_description" {
+variable "ssm_iam_policy_description" {
   type        = string
   description = "Description of the IAM policy for the Lambda IAM role"
   default     = "Provides minimum SSM read permissions."
