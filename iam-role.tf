@@ -2,7 +2,8 @@ resource "aws_iam_role" "this" {
   count = local.enabled ? 1 : 0
 
   name                 = module.this.id
-  assume_role_policy   = join("", data.aws_iam_policy_document.assume_role_policy.*.json)
+  description          = var.iam_role_description
+  assume_role_policy   = one(data.aws_iam_policy_document.assume_role_policy[*].json)
   permissions_boundary = var.permissions_boundary
   tags                 = module.this.tags
 }
@@ -67,7 +68,7 @@ resource "aws_iam_policy" "ssm" {
   count = try((local.enabled && var.ssm_parameter_names != null && length(var.ssm_parameter_names) > 0), false) ? 1 : 0
 
   name        = "${module.this.id}-ssm-policy-${local.region_name}"
-  description = var.iam_policy_description
+  description = var.ssm_iam_policy_description
   policy      = data.aws_iam_policy_document.ssm[count.index].json
 }
 
@@ -83,4 +84,26 @@ resource "aws_iam_role_policy_attachment" "custom" {
 
   role       = aws_iam_role.this[0].name
   policy_arn = each.key
+}
+
+data "aws_iam_policy_document" "raw" {
+  count = module.this.enabled && length(var.iam_policy_documents) > 0 ? 1 : 0
+
+  override_policy_documents = var.iam_policy_documents
+}
+
+resource "aws_iam_policy" "raw" {
+  count = module.this.enabled && length(var.iam_policy_documents) > 0 ? 1 : 0
+
+  name        = module.this.id
+  description = var.iam_policy_description
+  policy      = one(data.aws_iam_policy_document.raw[*].json)
+  tags        = module.this.tags
+}
+
+resource "aws_iam_role_policy_attachment" "raw" {
+  count = local.enabled && length(var.iam_policy_documents) > 0 ? 1 : 0
+
+  role       = aws_iam_role.this[0].name
+  policy_arn = aws_iam_policy.raw[0].arn
 }
