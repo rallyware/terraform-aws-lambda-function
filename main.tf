@@ -7,12 +7,15 @@ locals {
 
 module "cloudwatch_log_group" {
   source  = "cloudposse/cloudwatch-logs/aws"
-  version = "0.6.6"
+  version = "0.6.7"
+
+  enabled = module.this.enabled
+  name    = "/aws/lambda/${module.this.id}"
+  tags    = module.this.tags
 
   iam_role_enabled  = false
   kms_key_arn       = var.cloudwatch_logs_kms_key_arn
   retention_in_days = var.cloudwatch_logs_retention_in_days
-  context           = module.this.context
 }
 
 #tfsec:ignore:aws-lambda-enable-tracing

@@ -46,12 +46,6 @@ variable "cloudwatch_logs_kms_key_arn" {
   default     = null
 }
 
-variable "cloudwatch_log_subscription_filters" {
-  type        = map(any)
-  description = "CloudWatch Logs subscription filter resources. Currently supports only Lambda functions as destinations."
-  default     = {}
-}
-
 variable "description" {
   type        = string
   description = "Description of what the Lambda Function does."
@@ -66,28 +60,10 @@ variable "lambda_environment" {
   default     = null
 }
 
-variable "event_source_mappings" {
-  type        = any
-  description = <<EOF
-  Creates event source mappings to allow the Lambda function to get events from Kinesis, DynamoDB and SQS. The IAM role
-  of this Lambda function will be enhanced with necessary minimum permissions to get those events.
-  EOF
-  default     = {}
-}
-
 variable "filename" {
   type        = string
   description = "The path to the function's deployment package within the local filesystem. If defined, The s3_-prefixed options and image_uri cannot be used."
   default     = null
-}
-
-variable "ignore_external_function_updates" {
-  type        = bool
-  description = <<EOF
-  Ignore updates to the Lambda Function executed externally to the Terraform lifecycle. Set this to `true` if you're
-  using CodeDeploy, aws CLI or other external tools to update the Lambda Function code."
-  EOF
-  default     = false
 }
 
 variable "handler" {
@@ -239,10 +215,28 @@ variable "vpc_config" {
   default     = null
 }
 
+variable "iam_role_description" {
+  type        = string
+  description = "The description of the IAM role that is visible in the IAM role manager"
+  default     = ""
+}
+
 variable "custom_iam_policy_arns" {
   type        = set(string)
   description = "ARNs of custom policies to be attached to the lambda role"
   default     = []
+}
+
+variable "iam_policy_documents" {
+  type        = list(string)
+  description = "List of JSON IAM policy documents"
+  default     = []
+}
+
+variable "iam_policy_description" {
+  type        = string
+  description = "The description of the IAM policy that is visible in the IAM policy manager"
+  default     = ""
 }
 
 variable "dead_letter_config_target_arn" {
@@ -255,7 +249,7 @@ variable "dead_letter_config_target_arn" {
   default     = null
 }
 
-variable "iam_policy_description" {
+variable "ssm_iam_policy_description" {
   type        = string
   description = "Description of the IAM policy for the Lambda IAM role"
   default     = "Provides minimum SSM read permissions."
