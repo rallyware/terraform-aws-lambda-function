@@ -54,7 +54,7 @@ module "lambda" {
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_cloudwatch_log_group"></a> [cloudwatch\_log\_group](#module\_cloudwatch\_log\_group) | cloudposse/cloudwatch-logs/aws | 0.6.7 |
+| <a name="module_cloudwatch_log_group"></a> [cloudwatch\_log\_group](#module\_cloudwatch\_log\_group) | cloudposse/cloudwatch-logs/aws | 0.6.8 |
 | <a name="module_event_rule_label"></a> [event\_rule\_label](#module\_event\_rule\_label) | cloudposse/label/null | 0.25.0 |
 | <a name="module_this"></a> [this](#module\_this) | cloudposse/label/null | 0.25.0 |
 ## Resources
