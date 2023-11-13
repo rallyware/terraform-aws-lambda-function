@@ -152,7 +152,7 @@ variable "runtime" {
 
 variable "ephemeral_storage_size" {
   type        = number
-  description = "The size of the Lambda Function ephemeral storage represented in MB."
+  description = "The size of the Lambda Function ephemeral storage represented in MB. Maximum supported value is 10240MB."
   default     = 512
 }
 
