@@ -43,6 +43,10 @@ resource "aws_lambda_function" "this" {
   tags                           = var.tags
   timeout                        = var.timeout
 
+  ephemeral_storage {
+    size = var.ephemeral_storage_size
+  }
+
   dynamic "dead_letter_config" {
     for_each = try(length(var.dead_letter_config_target_arn), 0) > 0 ? [true] : []
 
