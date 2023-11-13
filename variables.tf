@@ -150,6 +150,12 @@ variable "runtime" {
   default     = null
 }
 
+variable "ephemeral_storage_size" {
+  type        = number
+  description = "The size of the Lambda Function ephemeral storage represented in MB."
+  default     = 512
+}
+
 variable "s3_bucket" {
   type        = string
   description = <<EOF
