@@ -2,7 +2,7 @@ locals {
   enabled     = module.this.enabled
   account_id  = local.enabled ? data.aws_caller_identity.this[0].account_id : null
   partition   = local.enabled ? data.aws_partition.this[0].partition : null
-  region_name = local.enabled ? data.aws_region.this[0].name : null
+  region_name = local.enabled ? data.aws_region.this[0].region : null
 }
 
 module "cloudwatch_log_group" {
@@ -87,10 +87,6 @@ resource "aws_lambda_function" "this" {
   }
 
   depends_on = [module.cloudwatch_log_group]
-
-  lifecycle {
-    ignore_changes = [last_modified]
-  }
 }
 
 resource "aws_lambda_function_event_invoke_config" "this" {
